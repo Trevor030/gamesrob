@@ -156,7 +156,7 @@ client.on('messageCreate', async (message) => {
   }
 });
 
-client.on('ready', () => {
+client.on('clientReady', () => {
   console.log(`Logged in as ${client.user.tag}`);
 });
 
