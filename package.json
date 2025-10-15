@@ -1,0 +1,13 @@
+{
+  "name": "discord-role-bot",
+  "version": "1.0.0",
+  "description": "Discord bot to temporarily strip and restore roles",
+  "main": "bot.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3"
+  }
+}
