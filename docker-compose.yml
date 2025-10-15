@@ -8,19 +8,19 @@ services:
     container_name: discord-role-bot
     restart: unless-stopped
     environment:
-      # Imposta questo in Portainer come secret/variabile, NON nel compose in chiaro
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      # minuti default per il ripristino se non indicati nel comando (!strip / !stripall)
       - RESTORE_DELAY_MINUTES=${RESTORE_DELAY_MINUTES:-5}
-      # Persistenza e timezone
       - DATA_DIR=/app/data
       - TZ=Europe/Rome
     volumes:
-      - ./data:/app/data
+      - rolebot_data:/app/data
     healthcheck:
-      # controlla che il container stia stampando "HEALTH_OK" nei log almeno una volta ogni 90s
       test: ["CMD-SHELL", "grep -q 'HEALTH_OK' /proc/1/fd/1 || exit 1"]
       interval: 90s
       timeout: 5s
       retries: 3
       start_period: 30s
+
+volumes:
+  rolebot_data:
+    driver: local
