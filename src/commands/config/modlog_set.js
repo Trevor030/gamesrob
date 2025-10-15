@@ -15,21 +15,22 @@ function writeConfig(cfg){
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('modlog')
-    .setDescription('Manage moderation log settings')
-    .addSubcommand(sc => sc
-      .setName('set')
-      .setDescription('Silently set the moderation log channel (no visible feedback).')
-      .addChannelOption(o => o.setName('channel').setDescription('Target channel').setRequired(true))
+    .setDescription('Manage moderation log settings.')
+    .addSubcommand(sc =>
+      sc.setName('set')
+        .setDescription('Silently set the moderation log channel.')
+        .addChannelOption(o =>
+          o.setName('channel')
+           .setDescription('Channel to receive moderation logs')
+           .setRequired(true)
+        )
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async execute(interaction) {
-    // Silent: acknowledge ephemerally then delete immediately
-    try {
-      await interaction.deferReply({ ephemeral: true });
-      await interaction.deleteReply().catch(()=>{});
-    } catch {}
-
+    // Silenzioso: ack ephemeral e lo elimino subito
+    try { await interaction.deferReply({ ephemeral: true }); await interaction.deleteReply().catch(()=>{}); } catch {}
     if (interaction.options.getSubcommand() !== 'set') return;
+
     const ch = interaction.options.getChannel('channel');
     if (!ch || !ch.isTextBased()) return;
 
