@@ -38,8 +38,9 @@ client.on('interactionCreate', async (interaction) => {
   catch (err) { console.error(err); interaction.reply({ content: 'Error', ephemeral: true }); }
 });
 
-client.once('ready', () => console.log(`Logged in as ${client.user.tag}`));
-
+client.on('clientReady', () => {
+  console.log(`Logged in as ${client.user.tag}`);
+});
 setInterval(() => console.log('HEALTH_OK'), 60_000);
 
 // register commands at startup (best-effort)
