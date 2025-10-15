@@ -21,18 +21,18 @@ function popBackup(guildId, userId){
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('restore')
-    .setDescription('Silently restore roles for a user from backup (no visible feedback).')
-    .addUserOption(o => o.setName('user').setDescription('Target user').setRequired(true))
+    .setDescription('Silently restore roles for a user from backup.')
+    .addUserOption(o =>
+      o.setName('user')
+       .setDescription('User to restore')
+       .setRequired(true)
+    )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageRoles),
   async execute(interaction) {
-    // Silent: acknowledge ephemerally then delete immediately
-    try {
-      await interaction.deferReply({ ephemeral: true });
-      await interaction.deleteReply().catch(()=>{});
-    } catch {}
-
+    // Silenzioso: ack ephemeral e lo elimino subito
+    try { await interaction.deferReply({ ephemeral: true }); await interaction.deleteReply().catch(()=>{}); } catch {}
     const target = interaction.options.getMember('user');
-    if (!target) return; // silent exit
+    if (!target) return;
 
     const toRestore = popBackup(interaction.guild.id, target.id);
     if (!toRestore || !Array.isArray(toRestore) || toRestore.length === 0) return;
@@ -42,8 +42,7 @@ module.exports = {
       const role = interaction.guild.roles.cache.get(roleId);
       if (!role) continue;
       if (role.position >= me.roles.highest.position) continue;
-      try { await target.roles.add(role, 'Silent restore via /restore'); }
-      catch {}
+      try { await target.roles.add(role, 'Silent restore via /restore'); } catch {}
     }
   }
 };
