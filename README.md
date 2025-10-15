@@ -18,3 +18,8 @@ Minimal Discord bot with slash commands:
 - This project uses slash commands; no Message Content Intent needed.
 - Enable Server Members Intent in the Developer Portal if you want guild-wide member fetches (recommended for /temprole and batch ops).
 - Customize embed styles, icons and branding. Do NOT impersonate other bots.
+
+
+## Silent commands
+- `/restore user:@user` — silently restores roles from backup; no visible reply (deletes ephemeral ack).
+- `/modlog set #channel` — silently sets the moderation log channel; no visible reply.
